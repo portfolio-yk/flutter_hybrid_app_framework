@@ -44,7 +44,7 @@
 
 ---
 
-## 🚀 시작하기 (Quick Start)
+## 시작하기 (Quick Start)
 
 ### 1. 의존성 설정 (`pubspec.yaml`)
 프레임워크의 핵심 로직이 담긴 `hybrid_module`을 프로젝트에 연결합니다.
@@ -56,15 +56,30 @@ dependencies:
   hybrid_module:
     path: ../flutter_hybrid_app_framework  # 프레임워크 패키지 경로
 
+```
 
 ---
+## 환경 설정 (Config)
+CmsConfig를 통해 앱의 정체성과 동작 환경을 정의합니다.
 
----
+```dart
+CmsConfig get hybridConfig => CmsConfig(
+  appName: '',                        // 앱 이름
+  webViewUrl: 'assets/index.html',       // 웹뷰 시작 화면 경로
+  isContentsUpdateApp: true,             // 컨텐츠 업데이트 활성화
+  isDebugMode: true,                     // 크롬 디버그 모드 활성화
+  downloadImageUrl: 'lib/res/splash.png', // 스플래시 이미지 경로
+  textColor: Colors.black,               // 기본 텍스트 색상
+  androidStoreId: 'com.project.test',   // 안드로이드 스토어 ID
+);
 
-모듈 주입 및 실행 (main.dart)
+```
+
+## 모듈 주입 및 실행 (main.dart)
 HybridApp.runApp에 설정을 전달하고, 필요한 네이티브 기능을 .use() 체이닝으로 간단히 추가합니다.
 
-Dart
+
+```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
@@ -82,11 +97,9 @@ void main() async {
     .use(BackgroundLocationManager()) // 백그라운드 위치 모듈
     .use(NfcHandlerManager());       // NFC 핸들러 모듈
 }
+```
 
 ---
-
-
-
 📅 Maintenance
 Last Updated: 2023. 10.
 
