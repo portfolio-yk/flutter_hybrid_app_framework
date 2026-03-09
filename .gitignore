@@ -31,4 +31,4 @@ build/
 
 
 #민감한 정보
-.lib/basic/data/
+lib/basic/data/
