@@ -1,12 +1,12 @@
-# 📱 Flutter Hybrid App Packaging Framework
+# Flutter Hybrid App Packaging Framework
 
 이 프로젝트는 웹 기반 서비스를 모바일 앱으로 신속하게 전환하고, 네이티브 기능을 유연하게 확장할 수 있도록 설계된 **Flutter 하이브리드 앱 전용 프레임워크**입니다. 
 
-2023년 10월 마지막 업데이트를 기점으로 안정화되었으며, 반복되는 하이브리드 앱 구축 로직을 모듈화하여 생산성을 극대화하는 데 초점을 맞췄습니다.
+2023년 10월 마지막 업데이트를 기점으로, 반복되는 하이브리드 앱 구축 로직을 모듈화하여 생산성을 극대화하는 데 초점을 맞췄습니다.
 
 ---
 
-## 🏗 프로젝트 구조 (Architecture)
+## 프로젝트 구조 (Architecture)
 
 본 프레임워크는 관심사 분리(SoC)를 위해 **Layered & Modular Architecture**를 채택하고 있습니다.
 
@@ -29,11 +29,11 @@
 ### 📂 Root Files
 - `hybrid_app.dart`: 앱의 메인 엔트리 포인트 및 위젯 트리 구성.
 - `hybrid_manager.dart`: **Web-to-Native / Native-to-Web** 브릿지 통신 총괄.
-- `main_init.dart`: 앱 구동 전 필요한 비동기 초기화(Firebase, 로그 등) 로직 집중 관리.
+- `main_init.dart`: 앱 구동 전 필요한 비동기 초기화 로직 집중 관리.
 
 ---
 
-## ✨ 주요 특징 (Key Features)
+## 주요 특징 (Key Features)
 
 - **High Modularity**: 각 기능(로그인, 결제, 푸시 등)이 `modules` 단위로 파편화되어 있어 유지보수가 용이합니다.
 - **Bridge Integration**: `hybrid_manager.dart`를 통해 JavaScript 채널 통신을 중앙 집중식으로 관리합니다.
@@ -42,8 +42,52 @@
 
 ---
 
-## 🚀 시작하기
+---
 
-1. **의존성 설치**
-   ```bash
-   flutter pub get
+## 🚀 시작하기 (Quick Start)
+
+### 1. 의존성 설정 (`pubspec.yaml`)
+프레임워크의 핵심 로직이 담긴 `hybrid_module`을 프로젝트에 연결합니다.
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  hybrid_module:
+    path: ../flutter_hybrid_app_framework  # 프레임워크 패키지 경로
+
+
+---
+
+---
+
+모듈 주입 및 실행 (main.dart)
+HybridApp.runApp에 설정을 전달하고, 필요한 네이티브 기능을 .use() 체이닝으로 간단히 추가합니다.
+
+Dart
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  // 시스템 UI 설정
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+
+  // 네이티브 콜백 등록
+  addNativeCall();
+
+  // 프레임워크 실행 및 모듈 주입 (Fluent API)
+  HybridApp.runApp(hybridConfig)
+    .use(SoundManager())             // 사운드 제어 모듈
+    .use(BackgroundLocationManager()) // 백그라운드 위치 모듈
+    .use(NfcHandlerManager());       // NFC 핸들러 모듈
+}
+
+---
+
+
+
+📅 Maintenance
+Last Updated: 2023. 10.
+
+Status: Stable Release
